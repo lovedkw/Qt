@@ -78,6 +78,9 @@ private:
     // 游戏计时，游戏难度会随游戏时间的增加而增加
     QTime m_aTime;
 
+    // 当前游戏难度
+    int m_nLevel;
+
     // 绘图事件
     void paintEvent(QPaintEvent *event);
 

@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    killTimer(m_nTimerID);
+
     delete ui;
 }
 
@@ -147,15 +149,19 @@ void MainWindow::timerEvent(QTimerEvent *event)
 
     // 判断是否需要提升游戏难度
     int nElapsed = m_aTime.elapsed();
-    if (nElapsed >= SECOND_LEVEL_INTERVAL)
-    {
-        killTimer(m_nTimerID);
-        m_nTimerID = startTimer(SECOND_LEVEL);
-    }
-    else if (nElapsed >= THIRD_LEVEL_INTERVAL)
+    if (nElapsed >= THIRD_LEVEL_INTERVAL && SECOND_LEVEL == m_nLevel)
     {
         killTimer(m_nTimerID);
         m_nTimerID = startTimer(THIRD_LEVEL);
+
+        m_nLevel = THIRD_LEVEL;
+    }
+    else if (nElapsed >= SECOND_LEVEL_INTERVAL && FIRST_LEVEL == m_nLevel)
+    {
+        killTimer(m_nTimerID);
+        m_nTimerID = startTimer(SECOND_LEVEL);
+
+        m_nLevel = SECOND_LEVEL;
     }
 
     return;
@@ -242,6 +248,9 @@ void MainWindow::StartGame()
 
     // 默认移动方向为 3 - 左
     m_nDirection = DIR_LEFT;
+
+    // 当前游戏难度，默认为 1 级
+    m_nLevel = FIRST_LEVEL;
 
     // 开启游戏计时
     m_aTime.restart();
