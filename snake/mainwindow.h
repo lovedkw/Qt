@@ -94,7 +94,7 @@ private:
     void closeEvent(QCloseEvent *event);
 
     // 开始游戏
-    void StartGame();
+    void StartGame(bool bRestart);
 
     // 画食物
     void DrawFood();

@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // 开始游戏
-    StartGame();
+    StartGame(false);
 }
 
 MainWindow::~MainWindow()
@@ -233,7 +233,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 // 开始游戏
-void MainWindow::StartGame()
+void MainWindow::StartGame(bool bRestart)
 {
     // 初始化蛇身
     m_vtPoint.clear();
@@ -256,7 +256,8 @@ void MainWindow::StartGame()
     m_aTime.restart();
 
     // 启动定时器，初始化游戏难度为 1 级
-    killTimer(m_nTimerID);
+    if (bRestart)
+        killTimer(m_nTimerID);
     m_nTimerID = startTimer(FIRST_LEVEL);
 
     return;
@@ -314,7 +315,7 @@ void MainWindow::DrawBody()
 
 void MainWindow::on_restart_triggered()
 {
-    StartGame();
+    StartGame(true);
 
     return;
 }
